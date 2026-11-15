@@ -61,7 +61,8 @@ For each problem, think about three questions:
 |       16 | `RANK()` + `DENSE_RANK()` + `PARTITION BY` | ✅ Completed   |
 |       17 | `DENSE_RANK()` + `PARTITION BY`            | ✅ Completed   |
 |       18 | `LAG()`                                    | ✅ Completed   |
-|    19–24 | `LAG()` / `LEAD()`                         | ⬜ Not started |
+|       19 | `LAG()`                                    | ✅ Completed   |
+|    20–24 | `LAG()` / `LEAD()`                         | ⬜ Not started |
 |    25–29 | Running calculations                       | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
@@ -320,6 +321,21 @@ LAG(sales_amount, 1) OVER (
 ```
 
 The query displays each day's sales alongside the sales amount from the preceding date. `LAG()` retrieves the value from the previous row in the window ordering, and `ORDER BY sales_date ASC` ensures that the preceding row is the earlier date. The first date has `NULL` because no earlier row is available.
+
+#### ✅ Question 19 — Calculate Daily Sales Change
+
+Used:
+
+```sql
+LAG(sales_amount, 1) OVER (
+    ORDER BY sales_date ASC
+) AS previous_day_sales,
+sales_amount - LAG(sales_amount, 1) OVER (
+    ORDER BY sales_date ASC
+) AS sales_difference
+```
+
+The query displays each day's sales, the sales amount from the preceding row, and the difference between the current day's sales and the previous day's sales. `LAG()` retrieves the previous row's sales amount using chronological order. A positive `sales_difference` indicates an increase, while a negative value indicates a decrease. The first date returns `NULL` for both the previous day's sales and the difference because no earlier row is available.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1554,14 +1570,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → ... → 30
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → ... → 30
                                                                                        ↑
                                                                                      NEXT
 ```
 
-**Completed: 18 / 30 beginner questions**
+**Completed: 19 / 30 beginner questions**
 
-Continue with **Question 19 — Daily Sales Change**.
+Continue with **Question 20 — Employee Salary vs Previous Employee**.
 
 Try to solve every question yourself before checking a solution.
 
