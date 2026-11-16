@@ -62,7 +62,8 @@ For each problem, think about three questions:
 |       17 | `DENSE_RANK()` + `PARTITION BY`            | ✅ Completed   |
 |       18 | `LAG()`                                    | ✅ Completed   |
 |       19 | `LAG()`                                    | ✅ Completed   |
-|    20–24 | `LAG()` / `LEAD()`                         | ⬜ Not started |
+|       20 | `LAG()`                                    | ✅ Completed   |
+|    21–24 | `LAG()` / `LEAD()`                         | ⬜ Not started |
 |    25–29 | Running calculations                       | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
@@ -336,6 +337,23 @@ sales_amount - LAG(sales_amount, 1) OVER (
 ```
 
 The query displays each day's sales, the sales amount from the preceding row, and the difference between the current day's sales and the previous day's sales. `LAG()` retrieves the previous row's sales amount using chronological order. A positive `sales_difference` indicates an increase, while a negative value indicates a decrease. The first date returns `NULL` for both the previous day's sales and the difference because no earlier row is available.
+
+#### ✅ Question 20 — Compare Employee Salary With Previous Employee
+
+Used:
+
+```sql
+CONCAT(
+    employee_id,
+    ' -> ',
+    employee_name
+) AS employee,
+LAG(salary) OVER (
+    ORDER BY salary ASC, employee_id ASC
+) AS previous_salary
+```
+
+The query displays each employee's ID and name alongside their salary and the salary of the preceding employee. `LAG()` retrieves the previous salary after employees are ordered from lowest to highest salary. `employee_id` provides a consistent secondary ordering when salaries are tied. The final query-level `ORDER BY` displays the results in the same order. The first employee has `NULL` for `previous_salary` because no preceding row is available.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1570,14 +1588,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → ... → 30
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → ... → 30
                                                                                        ↑
                                                                                      NEXT
 ```
 
-**Completed: 19 / 30 beginner questions**
+**Completed: 20 / 30 beginner questions**
 
-Continue with **Question 20 — Employee Salary vs Previous Employee**.
+Continue with **Question 21 — Next Order for Each Customer**.
 
 Try to solve every question yourself before checking a solution.
 

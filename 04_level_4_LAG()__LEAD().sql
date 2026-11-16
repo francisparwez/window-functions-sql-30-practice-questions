@@ -44,3 +44,29 @@ SELECT
 		ORDER BY sales_date ASC
 	) AS sales_difference
 FROM daily_sales;
+
+--20. Compare Employee Salary With Previous Employee
+--Scenario:
+--	HR wants to see how salaries change when employees are ordered from lowest to highest.
+--Task:
+--Show:
+--	employee
+--	salary
+--	previous_salary
+--Concept: LAG()
+
+USE WindowFunctionsPracticeDB;
+GO
+
+SELECT
+    CONCAT(
+        employee_id,
+        ' -> ',
+        employee_name
+    ) AS employee,
+    salary,
+    LAG(salary) OVER (
+        ORDER BY salary ASC, employee_id ASC
+    ) AS previous_salary
+FROM employees
+ORDER BY salary ASC, employee_id ASC;
