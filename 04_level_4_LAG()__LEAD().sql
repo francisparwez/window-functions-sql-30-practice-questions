@@ -70,3 +70,59 @@ SELECT
     ) AS previous_salary
 FROM employees
 ORDER BY salary ASC, employee_id ASC;
+
+-- 21. Find the Next Order for Each Customer
+-- Scenario:
+-- An e-commerce company wants to know when each customer placed their next order.
+-- Task:
+-- Show:
+--     customer_id
+--     order_date
+--     next_order_date
+-- Concept: LEAD() + PARTITION BY
+
+USE WindowFunctionsPracticeDB;
+
+SELECT
+    customer_id,
+    order_date,
+    LEAD(order_date) OVER (
+        PARTITION BY
+            customer_id
+        ORDER BY order_date ASC
+    ) AS next_order_date
+FROM orders
+ORDER BY customer_id ASC, order_date ASC;
+
+-- 22. Calculate Days Until Next Order
+-- Scenario:
+-- Marketing wants to understand how frequently customers return.
+-- Task:
+-- Show:
+--     customer_id
+--     order_date
+--     next_order_date
+--     days_until_next_order
+-- Concept: LEAD()
+
+USE WindowFunctionsPracticeDB;
+
+SELECT
+    customer_id,
+    order_date,
+    LEAD(order_date) OVER (
+        PARTITION BY
+            customer_id
+        ORDER BY order_date ASC
+    ) AS next_order_date,
+    DATEDIFF(
+        DAY,
+        order_date,
+        LEAD(order_date) OVER (
+            PARTITION BY
+                customer_id
+            ORDER BY order_date ASC
+        )
+    ) AS days_until_next_order
+FROM orders
+ORDER BY customer_id ASC, order_date ASC;

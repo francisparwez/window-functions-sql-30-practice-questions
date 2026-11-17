@@ -63,7 +63,9 @@ For each problem, think about three questions:
 |       18 | `LAG()`                                    | ✅ Completed   |
 |       19 | `LAG()`                                    | ✅ Completed   |
 |       20 | `LAG()`                                    | ✅ Completed   |
-|    21–24 | `LAG()` / `LEAD()`                         | ⬜ Not started |
+|       21 | `LEAD()` + `PARTITION BY`                  | ✅ Completed   |
+|       22 | `LEAD()`                                   | ✅ Completed   |
+|    23–24 | `LAG()`                                    | ⬜ Not started |
 |    25–29 | Running calculations                       | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
@@ -354,6 +356,40 @@ LAG(salary) OVER (
 ```
 
 The query displays each employee's ID and name alongside their salary and the salary of the preceding employee. `LAG()` retrieves the previous salary after employees are ordered from lowest to highest salary. `employee_id` provides a consistent secondary ordering when salaries are tied. The final query-level `ORDER BY` displays the results in the same order. The first employee has `NULL` for `previous_salary` because no preceding row is available.
+
+#### ✅ Question 21 — Find the Next Order for Each Customer
+
+Used:
+
+```sql
+LEAD(order_date) OVER (
+    PARTITION BY customer_id
+    ORDER BY order_date ASC
+) AS next_order_date
+```
+
+The query retrieves each customer's next order date. `PARTITION BY customer_id` keeps each customer's order sequence separate, while `ORDER BY order_date ASC` determines the chronological order used by `LEAD()`. The final query-level `ORDER BY` organizes the output by customer and order date. The last order for each customer has `NULL` for `next_order_date` because no subsequent order is available.
+
+#### ✅ Question 22 — Calculate Days Until Next Order
+
+Used:
+
+```sql
+LEAD(order_date) OVER (
+    PARTITION BY customer_id
+    ORDER BY order_date ASC
+) AS next_order_date,
+DATEDIFF(
+    DAY,
+    order_date,
+    LEAD(order_date) OVER (
+        PARTITION BY customer_id
+        ORDER BY order_date ASC
+    )
+) AS days_until_next_order
+```
+
+The query retrieves each customer's next order date and calculates the number of days between the current order and that next order using `DATEDIFF(DAY, ...)`. `LEAD()` operates within each customer's chronological order sequence. The final order for each customer returns `NULL` for both `next_order_date` and `days_until_next_order` because there is no following order.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1588,14 +1624,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → ... → 30
-                                                                                       ↑
-                                                                                     NEXT
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → ... → 30
+                                                                                                                  ↑
+                                                                                                                NEXT
 ```
 
-**Completed: 20 / 30 beginner questions**
+**Completed: 22 / 30 beginner questions**
 
-Continue with **Question 21 — Next Order for Each Customer**.
+Continue with **Question 23 — Monthly Revenue vs Previous Month**.
 
 Try to solve every question yourself before checking a solution.
 
