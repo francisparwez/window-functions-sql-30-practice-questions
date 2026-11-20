@@ -126,3 +126,24 @@ SELECT
     ) AS days_until_next_order
 FROM orders
 ORDER BY customer_id ASC, order_date ASC;
+
+-- 23. Compare Monthly Revenue With Previous Month
+-- Scenario:
+-- A business has monthly revenue data.
+-- Task:
+-- Show:
+--     month
+--     revenue
+--     previous_month_revenue
+-- Concept: LAG()
+
+USE WindowFunctionsPracticeDB;
+
+SELECT
+    revenue_month AS [month],
+    revenue,
+    LAG(revenue) OVER (
+        ORDER BY revenue_month ASC
+    ) AS previous_month_revenue
+FROM monthly_revenue
+ORDER BY revenue_month ASC;

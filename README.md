@@ -65,7 +65,8 @@ For each problem, think about three questions:
 |       20 | `LAG()`                                    | ✅ Completed   |
 |       21 | `LEAD()` + `PARTITION BY`                  | ✅ Completed   |
 |       22 | `LEAD()`                                   | ✅ Completed   |
-|    23–24 | `LAG()`                                    | ⬜ Not started |
+|       23 | `LAG()`                                    | ✅ Completed   |
+|       24 | `LAG()`                                    | ⬜ Not started |
 |    25–29 | Running calculations                       | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
@@ -390,6 +391,18 @@ DATEDIFF(
 ```
 
 The query retrieves each customer's next order date and calculates the number of days between the current order and that next order using `DATEDIFF(DAY, ...)`. `LEAD()` operates within each customer's chronological order sequence. The final order for each customer returns `NULL` for both `next_order_date` and `days_until_next_order` because there is no following order.
+
+#### ✅ Question 23 — Compare Monthly Revenue With Previous Month
+
+Used:
+
+```sql
+LAG(revenue) OVER (
+    ORDER BY revenue_month ASC
+) AS previous_month_revenue
+```
+
+The query reads from `monthly_revenue`, which contains one record for each month, and displays each month's revenue alongside the revenue from the preceding month. `LAG()` retrieves the previous row's revenue, while `ORDER BY revenue_month ASC` ensures the comparison follows chronological order. The first month returns `NULL` for `previous_month_revenue` because no earlier month is available.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1624,14 +1637,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → ... → 30
-                                                                                                                  ↑
-                                                                                                                NEXT
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → ... → 30
+                                                                                                                       ↑
+                                                                                                                     NEXT
 ```
 
-**Completed: 22 / 30 beginner questions**
+**Completed: 23 / 30 beginner questions**
 
-Continue with **Question 23 — Monthly Revenue vs Previous Month**.
+Continue with **Question 24 — Month-over-Month Revenue Change**.
 
 Try to solve every question yourself before checking a solution.
 
