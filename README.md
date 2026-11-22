@@ -66,7 +66,7 @@ For each problem, think about three questions:
 |       21 | `LEAD()` + `PARTITION BY`                  | ✅ Completed   |
 |       22 | `LEAD()`                                   | ✅ Completed   |
 |       23 | `LAG()`                                    | ✅ Completed   |
-|       24 | `LAG()`                                    | ⬜ Not started |
+|       24 | `LAG()` + arithmetic                       | ✅ Completed   |
 |    25–29 | Running calculations                       | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
@@ -403,6 +403,19 @@ LAG(revenue) OVER (
 ```
 
 The query reads from `monthly_revenue`, which contains one record for each month, and displays each month's revenue alongside the revenue from the preceding month. `LAG()` retrieves the previous row's revenue, while `ORDER BY revenue_month ASC` ensures the comparison follows chronological order. The first month returns `NULL` for `previous_month_revenue` because no earlier month is available.
+
+#### ✅ Question 24 — Calculate Month-over-Month Revenue Change
+
+Used:
+
+```sql
+LAG(revenue) OVER (
+    ORDER BY revenue_month ASC
+) AS previous_month_revenue,
+revenue - previous_month_revenue AS revenue_change
+```
+
+The query uses a subquery to retrieve each month's revenue and the previous month's revenue with `LAG()`. The outer query calculates `revenue_change` by subtracting the previous month's revenue from the current month's revenue. A positive value indicates an increase, while a negative value indicates a decrease. The first month returns `NULL` for both the previous month's revenue and the change because no earlier month is available.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1637,14 +1650,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → ... → 30
-                                                                                                                       ↑
-                                                                                                                     NEXT
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → ... → 30
+                                                                                                                            ↑
+                                                                                                                          NEXT
 ```
 
-**Completed: 23 / 30 beginner questions**
+**Completed: 24 / 30 beginner questions**
 
-Continue with **Question 24 — Month-over-Month Revenue Change**.
+Continue with **Question 25 — Running Total of Sales**.
 
 Try to solve every question yourself before checking a solution.
 

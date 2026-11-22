@@ -138,6 +138,7 @@ ORDER BY customer_id ASC, order_date ASC;
 -- Concept: LAG()
 
 USE WindowFunctionsPracticeDB;
+GO
 
 SELECT
     revenue_month AS [month],
@@ -147,3 +148,29 @@ SELECT
     ) AS previous_month_revenue
 FROM monthly_revenue
 ORDER BY revenue_month ASC;
+
+-- 24. Calculate Month-over-Month Revenue Change
+-- Scenario:
+-- Management wants to measure monthly revenue growth.
+-- Task:
+-- Return:
+--     month
+--     revenue
+--     previous_month_revenue
+--     revenue_change
+-- Concept: LAG() + arithmetic
+
+USE WindowFunctionsPracticeDB;
+
+SELECT
+    *,
+    revenue - previous_month_revenue AS revenue_change
+FROM (
+    SELECT
+        revenue_month AS [month],
+        revenue,
+        LAG(revenue) OVER (
+            ORDER BY revenue_month ASC
+        ) AS previous_month_revenue
+    FROM monthly_revenue
+) AS revenue_comparison;
