@@ -67,7 +67,8 @@ For each problem, think about three questions:
 |       22 | `LEAD()`                                   | ✅ Completed   |
 |       23 | `LAG()`                                    | ✅ Completed   |
 |       24 | `LAG()` + arithmetic                       | ✅ Completed   |
-|    25–29 | Running calculations                       | ⬜ Not started |
+|       25 | Running `SUM()`                            | ✅ Completed   |
+|    26–29 | Running calculations                       | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
 ### Completed Questions
@@ -416,6 +417,18 @@ revenue - previous_month_revenue AS revenue_change
 ```
 
 The query uses a subquery to retrieve each month's revenue and the previous month's revenue with `LAG()`. The outer query calculates `revenue_change` by subtracting the previous month's revenue from the current month's revenue. A positive value indicates an increase, while a negative value indicates a decrease. The first month returns `NULL` for both the previous month's revenue and the change because no earlier month is available.
+
+#### ✅ Question 25 — Calculate Running Total of Sales
+
+Used:
+
+```sql
+SUM(sales_amount) OVER (
+    ORDER BY sales_date ASC
+) AS [Running Total]
+```
+
+The query reads from `daily_sales` and calculates cumulative sales in chronological order. For each date, `SUM() OVER(ORDER BY sales_date ASC)` adds the current day's sales to the sales from all preceding dates, producing a running total while retaining one row per day. The final query-level `ORDER BY sales_date ASC` displays the results chronologically.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1650,14 +1663,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → ... → 30
-                                                                                                                            ↑
-                                                                                                                          NEXT
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → ... → 30
+                                                                                                                                 ↑
+                                                                                                                               NEXT
 ```
 
-**Completed: 24 / 30 beginner questions**
+**Completed: 25 / 30 beginner questions**
 
-Continue with **Question 25 — Running Total of Sales**.
+Continue with **Question 26 — Running Total for Each Customer**.
 
 Try to solve every question yourself before checking a solution.
 
