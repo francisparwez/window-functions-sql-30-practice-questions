@@ -68,7 +68,8 @@ For each problem, think about three questions:
 |       23 | `LAG()`                                    | ✅ Completed   |
 |       24 | `LAG()` + arithmetic                       | ✅ Completed   |
 |       25 | Running `SUM()`                            | ✅ Completed   |
-|    26–29 | Running calculations                       | ⬜ Not started |
+|       26 | Running `SUM()` + `PARTITION BY`           | ✅ Completed   |
+|    27–29 | Running calculations                       | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
 ### Completed Questions
@@ -429,6 +430,19 @@ SUM(sales_amount) OVER (
 ```
 
 The query reads from `daily_sales` and calculates cumulative sales in chronological order. For each date, `SUM() OVER(ORDER BY sales_date ASC)` adds the current day's sales to the sales from all preceding dates, producing a running total while retaining one row per day. The final query-level `ORDER BY sales_date ASC` displays the results chronologically.
+
+#### ✅ Question 26 — Calculate Running Total for Each Customer
+
+Used:
+
+```sql
+SUM(o.amount) OVER (
+    PARTITION BY c.customer_id
+    ORDER BY o.order_date ASC, o.order_id ASC
+) AS running_customer_spending
+```
+
+The query joins `customers` and `orders` using `customer_id`, then calculates each customer's cumulative spending in chronological order. `PARTITION BY c.customer_id` restarts the running total for each customer. Ordering by both `o.order_date` and `o.order_id` provides a consistent sequence when a customer has multiple orders on the same date. The final query-level `ORDER BY` organises the results by customer and order date.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1663,14 +1677,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → ... → 30
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 26 → ... → 30
                                                                                                                                  ↑
                                                                                                                                NEXT
 ```
 
-**Completed: 25 / 30 beginner questions**
+**Completed: 26 / 30 beginner questions**
 
-Continue with **Question 26 — Running Total for Each Customer**.
+Continue with **Question 27 — Running Average of Sales**.
 
 Try to solve every question yourself before checking a solution.
 

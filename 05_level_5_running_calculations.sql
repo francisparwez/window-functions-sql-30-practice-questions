@@ -19,3 +19,31 @@ SELECT
 	SUM(sales_amount) OVER (ORDER BY sales_date ASC) AS [Running Total]
 FROM daily_sales
 ORDER BY sales_date ASC;
+
+-- 26. Calculate Running Total for Each Customer
+-- Scenario:
+-- An e-commerce company wants to see how each customer's spending accumulated over
+-- time.
+-- Task:
+-- Return:
+-- 	customer_id
+-- 	order_date
+-- 	order_amount
+-- 	running_customer_spending
+-- Concept: SUM() + PARTITION BY + ORDER BY
+
+USE WindowFunctionsPracticeDB;
+GO
+
+SELECT
+    c.customer_id,
+    o.order_date,
+    o.amount AS order_amount,
+    SUM(o.amount) OVER (
+        PARTITION BY
+            c.customer_id
+        ORDER BY o.order_date ASC, o.order_id ASC
+    ) AS running_customer_spending
+FROM customers c
+    JOIN orders o ON c.customer_id = o.customer_id
+ORDER BY c.customer_id ASC, o.order_date ASC;
