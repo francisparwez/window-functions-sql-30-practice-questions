@@ -47,3 +47,26 @@ SELECT
 FROM customers c
     JOIN orders o ON c.customer_id = o.customer_id
 ORDER BY c.customer_id ASC, o.order_date ASC;
+
+-- 27. Calculate Running Average of Sales
+-- Scenario:
+--     Management wants to see the average sales value accumulated up to each day.
+-- Task:
+-- Return:
+--     date
+--     sales
+--     running_average_sales
+-- Concept:
+--     AVG() OVER(ORDER BY ...)
+
+USE WindowFunctionsPracticeDB;
+GO
+
+SELECT
+	sales_date AS [date],
+	sales_amount AS [sales],
+	CAST(AVG(sales_amount) OVER (
+		ORDER BY sales_date ASC
+	) AS DECIMAL(10, 2)) AS running_average_sales
+FROM daily_sales
+ORDER BY sales_date ASC;

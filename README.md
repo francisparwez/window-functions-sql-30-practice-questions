@@ -69,7 +69,8 @@ For each problem, think about three questions:
 |       24 | `LAG()` + arithmetic                       | ✅ Completed   |
 |       25 | Running `SUM()`                            | ✅ Completed   |
 |       26 | Running `SUM()` + `PARTITION BY`           | ✅ Completed   |
-|    27–29 | Running calculations                       | ⬜ Not started |
+|       27 | Running `AVG()`                            | ✅ Completed   |
+|    28–29 | Running calculations                       | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
 ### Completed Questions
@@ -443,6 +444,20 @@ SUM(o.amount) OVER (
 ```
 
 The query joins `customers` and `orders` using `customer_id`, then calculates each customer's cumulative spending in chronological order. `PARTITION BY c.customer_id` restarts the running total for each customer. Ordering by both `o.order_date` and `o.order_id` provides a consistent sequence when a customer has multiple orders on the same date. The final query-level `ORDER BY` organises the results by customer and order date.
+
+#### ✅ Question 27 — Calculate Running Average of Sales
+
+Used:
+
+```sql
+CAST(
+    AVG(sales_amount) OVER (
+        ORDER BY sales_date ASC
+    ) AS DECIMAL(10, 2)
+) AS running_average_sales
+```
+
+The query reads from `daily_sales` and calculates the cumulative average sales in chronological order. `AVG() OVER(ORDER BY sales_date ASC)` includes the current day's sales and all preceding days in the running average while retaining one row per day. `CAST(... AS DECIMAL(10, 2))` formats the result to two decimal places. The final query-level `ORDER BY sales_date ASC` displays the results chronologically.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1677,14 +1692,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 26 → ... → 30
-                                                                                                                                 ↑
-                                                                                                                               NEXT
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 26 → 27 → ... → 30
+                                                                                                                                      ↑
+                                                                                                                                    NEXT
 ```
 
-**Completed: 26 / 30 beginner questions**
+**Completed: 27 / 30 beginner questions**
 
-Continue with **Question 27 — Running Average of Sales**.
+Continue with **Question 28 — Running Maximum Sales**.
 
 Try to solve every question yourself before checking a solution.
 
