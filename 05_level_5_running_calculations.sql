@@ -70,3 +70,27 @@ SELECT
 	) AS DECIMAL(10, 2)) AS running_average_sales
 FROM daily_sales
 ORDER BY sales_date ASC;
+
+--28. Calculate Running Maximum Sales
+--Scenario:
+--	Management wants to know the highest daily sales achieved so far at every point in time.
+--Example:
+--	Date Sales Highest So Far
+--	Jan 1 1000 1000
+--	Jan 2 1500 1500
+--	Jan 3 1200 1500
+--	Jan 4 2000 2000
+--Task:
+--	Calculate the running maximum.
+--Concept:
+--	MAX() OVER(ORDER BY ...)
+
+USE WindowFunctionsPracticeDB;
+GO
+
+SELECT
+	sales_date AS [Date],
+	sales_amount AS Sales,
+	MAX(sales_amount) OVER (ORDER BY sales_date) AS [Highest So Far]
+FROM daily_sales
+ORDER BY sales_date ASC;

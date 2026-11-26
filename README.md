@@ -70,7 +70,8 @@ For each problem, think about three questions:
 |       25 | Running `SUM()`                            | ✅ Completed   |
 |       26 | Running `SUM()` + `PARTITION BY`           | ✅ Completed   |
 |       27 | Running `AVG()`                            | ✅ Completed   |
-|    28–29 | Running calculations                       | ⬜ Not started |
+|       28 | Running `MAX()`                            | ✅ Completed   |
+|       29 | Running `MIN()`                            | ⬜ Not started |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
 ### Completed Questions
@@ -458,6 +459,18 @@ CAST(
 ```
 
 The query reads from `daily_sales` and calculates the cumulative average sales in chronological order. `AVG() OVER(ORDER BY sales_date ASC)` includes the current day's sales and all preceding days in the running average while retaining one row per day. `CAST(... AS DECIMAL(10, 2))` formats the result to two decimal places. The final query-level `ORDER BY sales_date ASC` displays the results chronologically.
+
+#### ✅ Question 28 — Calculate Running Maximum Sales
+
+Used:
+
+```sql
+MAX(sales_amount) OVER (
+    ORDER BY sales_date
+) AS [Highest So Far]
+```
+
+The query reads from `daily_sales` and calculates the highest daily sales amount recorded up to each date. `MAX() OVER(ORDER BY sales_date)` evaluates the current day's sales together with all preceding rows, retaining one row per day. The final query-level `ORDER BY sales_date ASC` displays the results chronologically.
 
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
@@ -1692,14 +1705,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 26 → 27 → ... → 30
-                                                                                                                                      ↑
-                                                                                                                                    NEXT
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 26 → 27 → 28 → ... → 30
+                                                                                                                                           ↑
+                                                                                                                                         NEXT
 ```
 
-**Completed: 27 / 30 beginner questions**
+**Completed: 28 / 30 beginner questions**
 
-Continue with **Question 28 — Running Maximum Sales**.
+Continue with **Question 29 — Running Minimum Product Price**.
 
 Try to solve every question yourself before checking a solution.
 
