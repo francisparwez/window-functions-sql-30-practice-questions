@@ -94,3 +94,23 @@ SELECT
 	MAX(sales_amount) OVER (ORDER BY sales_date) AS [Highest So Far]
 FROM daily_sales
 ORDER BY sales_date ASC;
+
+-- 29. Calculate Running Minimum Product Price
+-- Scenario:
+-- 	An online marketplace tracks product prices over time.
+-- Task:
+-- 	For every date, show the lowest price recorded so far.
+-- Return:
+-- 	date
+-- 	price
+-- 	lowest_price_so_far
+-- Concept: MIN() OVER(ORDER BY ...)
+
+USE WindowFunctionsPracticeDB;
+GO
+
+SELECT
+	price_date AS [date],
+	price,
+	MIN(price) OVER(ORDER BY price_date) AS lowest_price_so_far
+FROM price_history;

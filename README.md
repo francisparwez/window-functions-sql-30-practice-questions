@@ -71,7 +71,7 @@ For each problem, think about three questions:
 |       26 | Running `SUM()` + `PARTITION BY`           | ✅ Completed   |
 |       27 | Running `AVG()`                            | ✅ Completed   |
 |       28 | Running `MAX()`                            | ✅ Completed   |
-|       29 | Running `MIN()`                            | ⬜ Not started |
+|       29 | Running `MIN()`                            | ✅ Completed   |
 |       30 | Multiple window functions                  | ⬜ Not started |
 
 ### Completed Questions
@@ -472,6 +472,18 @@ MAX(sales_amount) OVER (
 
 The query reads from `daily_sales` and calculates the highest daily sales amount recorded up to each date. `MAX() OVER(ORDER BY sales_date)` evaluates the current day's sales together with all preceding rows, retaining one row per day. The final query-level `ORDER BY sales_date ASC` displays the results chronologically.
 
+#### ✅ Question 29 — Calculate Running Minimum Product Price
+
+Used:
+
+```sql
+MIN(price) OVER (
+    ORDER BY price_date
+) AS lowest_price_so_far
+```
+
+The query reads from `price_history` and calculates the lowest product price recorded up to each date. `MIN() OVER(ORDER BY price_date)` evaluates the current price together with all prices from preceding dates, retaining one row per date. The final query-level `ORDER BY price_date` can be used to display the results chronologically.
+
 ### Additional Practice — Moving Average (Outside the 30 Questions)
 
 An extra query was added to calculate a moving average of salary within each department:
@@ -527,9 +539,13 @@ USE WindowFunctionsPracticeDB;
 # 📁 Project Files
 
 ```text
-30_window_functions_beginner/
-│
+window-functions-sql-30-practice-questions/
 ├── 00_schema_design.sql
+├── 01_level_1_understanding_OVER().sql
+├── 02_level_2_partition_by.sql
+├── 03_level_3_row_number()_rank()_dense_rank().sql
+├── 04_level_4_LAG()__LEAD().sql
+├── 05_level_5_running_calculations.sql
 └── README.md
 ```
 
@@ -1705,14 +1721,14 @@ USE WindowFunctionsPracticeDB;
 Current progress:
 
 ```text
-01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 26 → 27 → 28 → ... → 30
-                                                                                                                                           ↑
-                                                                                                                                         NEXT
+01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22 → 23 → 24 → 25 → 26 → 27 → 28 → 29 → 30
+                                                                                                                                                       ↑
+                                                                                                                                                     NEXT
 ```
 
-**Completed: 28 / 30 beginner questions**
+**Completed: 29 / 30 beginner questions**
 
-Continue with **Question 29 — Running Minimum Product Price**.
+Continue with **Question 30 — Customer Purchase Analytics Dashboard**.
 
 Try to solve every question yourself before checking a solution.
 
